@@ -1,14 +1,18 @@
 package com.powecn.table;
 
-import android.content.Context;
+import java.util.List;
+
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.example.flfxdemo.R;
+import com.powecn.pojo.Student;
 import com.powecn.util.App;
 
 public class TableSurfaceView extends SurfaceView implements Runnable,
@@ -19,7 +23,7 @@ public class TableSurfaceView extends SurfaceView implements Runnable,
 	public App app;
 	private int screenWidth = 0;
 	private int screenHeight = 0;
-	private Context context;
+	private Activity context;
 
 	SurfaceHolder mSurfaceHolder = null;
 	public Canvas canvas;
@@ -30,22 +34,33 @@ public class TableSurfaceView extends SurfaceView implements Runnable,
 	public int cellCount = 0;// 表格数量
 	public int tableCol = 2;// 默认两列
 
+	List<Student> datas;// 学生数据
+	List<Student> selectedStudents;// 被选择的学生
+
 	public void init() {
-		app = (App) context.getApplicationContext();
+		app = (App) context.getApplication();
 		this.screenWidth = app.getScreenWidth();
 		this.screenHeight = app.getScreenHeight();
 		mSurfaceHolder = this.getHolder();
 		mSurfaceHolder.addCallback(this);
 		this.setFocusable(true);
 
+		paint = new Paint();
+
 		selectedIco = BitmapFactory.decodeResource(getResources(),
 				R.drawable.selected_icon);
 	}
 
-	public TableSurfaceView(Context context) {
+	public TableSurfaceView(Activity context, List<Student> datas, int tableCol) {
 		super(context);
 		this.context = context;
 		mbLoop = true;
+
+		this.cellCount = datas.size();
+		this.tableCol = tableCol;
+
+		init();
+
 	}
 
 	@Override
@@ -83,6 +98,11 @@ public class TableSurfaceView extends SurfaceView implements Runnable,
 		if (mSurfaceHolder == null || canvas == null) {
 			return;
 		}
+		paint.setColor(Color.BLACK);
+		canvas.drawColor(Color.WHITE);
+		canvas.drawBitmap(selectedIco, 10, 10, paint);
+
+		mSurfaceHolder.unlockCanvasAndPost(canvas);// 绘制完成并解锁画布
 	}
 
 }
