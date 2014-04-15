@@ -1,27 +1,53 @@
 package com.example.flfxdemo;
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
+import android.view.WindowManager;
+
+import com.powecn.table.TableSurfaceView;
+import com.powecn.util.App;
 
 public class MainActivity extends ActionBarActivity {
+
+	private App app;
+	TableSurfaceView tableView;
+	private int screenWidth = 10;// 屏幕宽度
+	private int screenHeight = 10;// 屏幕高度
+
+	public void init() {
+
+		app = (App) getApplication();
+		// 设置屏幕不关闭
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
+				WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		DisplayMetrics dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		this.screenWidth = dm.widthPixels;
+		this.screenHeight = dm.heightPixels;
+		app.setScreenWidth(screenWidth);
+		app.setScreenHeight(screenHeight);
+		tableView = new TableSurfaceView(this);
+		
+		
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(tableView);
 
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+
 	}
 
 	@Override
