@@ -5,6 +5,7 @@ public class Student {
 	public String studentName = "name";
 	public String cog = "хож╙";
 	public String level = "A";
+	public boolean isSelected = false;
 
 	public Student() {
 
@@ -38,6 +39,14 @@ public class Student {
 
 	public void setLevel(String level) {
 		this.level = level;
+	}
+
+	public boolean isSelected() {
+		return isSelected;
+	}
+
+	public void setSelected(boolean isSelected) {
+		this.isSelected = isSelected;
 	}
 
 }

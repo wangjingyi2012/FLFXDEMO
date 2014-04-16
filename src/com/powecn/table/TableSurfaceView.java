@@ -25,7 +25,7 @@ public class TableSurfaceView extends SurfaceView implements Runnable,
 	private int screenHeight = 0;
 	public int swEach = 0;
 	public int shEach = 0;
-	public int each = 40;
+	public int each = 30;
 	private Activity context;
 
 	SurfaceHolder mSurfaceHolder = null;
@@ -115,22 +115,27 @@ public class TableSurfaceView extends SurfaceView implements Runnable,
 
 		paint.setColor(Color.BLACK);
 		canvas.drawColor(Color.WHITE);
-		paint.setTextSize(22);
+		paint.setTextSize(shEach);
 		paint.setAntiAlias(true);
 		// canvas.drawBitmap(selectedIco, 10, 10, paint);
 
 		// 绘制学生
+		int k = 0, xPos = 0, yPos = shEach * 2;
+		// 姓名的X,Y坐标
 		for (int i = 0; i < datas.size(); i++) {
 			int j = i % tableCol;
-			int xPos = swEach * 3 + j * swEach * 6, yPos = shEach * 10;// 姓名X,Y坐标
-			if (j == 0) {
-				xPos = swEach * 3;
-				yPos += shEach * 4;
+			xPos = swEach * 2 + k * 70;
+			if (j == 0 && i != 0) {
+				k = 0;
+				xPos = swEach * 2;
+				yPos = yPos + shEach * 2;
 			}
-
+			k++;
 			canvas.drawText(datas.get(i).getStudentName(), xPos, yPos, paint);
 			// canvas.drawBitmap(selectedIco, xPos, yPos, null);
 		}
+
+		// 绘制表格
 
 		mSurfaceHolder.unlockCanvasAndPost(canvas);// 绘制完成并解锁画布
 	}
