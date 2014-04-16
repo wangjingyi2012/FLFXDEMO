@@ -23,6 +23,9 @@ public class TableSurfaceView extends SurfaceView implements Runnable,
 	public App app;
 	private int screenWidth = 0;
 	private int screenHeight = 0;
+	public int swEach = 0;
+	public int shEach = 0;
+	public int each = 40;
 	private Activity context;
 
 	SurfaceHolder mSurfaceHolder = null;
@@ -33,6 +36,8 @@ public class TableSurfaceView extends SurfaceView implements Runnable,
 
 	public int cellCount = 0;// 表格数量
 	public int tableCol = 2;// 默认两列
+	public int tableRow = 1;// 默认一列
+	public int lastRowCell = 0;// 最后一行多出的格子
 
 	List<Student> datas;// 学生数据
 	List<Student> selectedStudents;// 被选择的学生
@@ -41,6 +46,8 @@ public class TableSurfaceView extends SurfaceView implements Runnable,
 		app = (App) context.getApplication();
 		this.screenWidth = app.getScreenWidth();
 		this.screenHeight = app.getScreenHeight();
+		swEach = screenWidth / each;
+		shEach = screenHeight / each;
 		mSurfaceHolder = this.getHolder();
 		mSurfaceHolder.addCallback(this);
 		this.setFocusable(true);
@@ -54,12 +61,19 @@ public class TableSurfaceView extends SurfaceView implements Runnable,
 	public TableSurfaceView(Activity context, List<Student> datas, int tableCol) {
 		super(context);
 		this.context = context;
+		this.datas = datas;
 		mbLoop = true;
+
+		init();
 
 		this.cellCount = datas.size();
 		this.tableCol = tableCol;
-
-		init();
+		if (cellCount % tableCol == 0) {
+			this.tableRow = cellCount / tableCol;
+		} else {
+			this.tableRow = cellCount / tableCol + 1;
+			lastRowCell = cellCount % tableCol;
+		}
 
 	}
 
@@ -98,9 +112,25 @@ public class TableSurfaceView extends SurfaceView implements Runnable,
 		if (mSurfaceHolder == null || canvas == null) {
 			return;
 		}
+
 		paint.setColor(Color.BLACK);
 		canvas.drawColor(Color.WHITE);
-		canvas.drawBitmap(selectedIco, 10, 10, paint);
+		paint.setTextSize(22);
+		paint.setAntiAlias(true);
+		// canvas.drawBitmap(selectedIco, 10, 10, paint);
+
+		// 绘制学生
+		for (int i = 0; i < datas.size(); i++) {
+			int j = i % tableCol;
+			int xPos = swEach * 3 + j * swEach * 6, yPos = shEach * 10;// 姓名X,Y坐标
+			if (j == 0) {
+				xPos = swEach * 3;
+				yPos += shEach * 4;
+			}
+
+			canvas.drawText(datas.get(i).getStudentName(), xPos, yPos, paint);
+			// canvas.drawBitmap(selectedIco, xPos, yPos, null);
+		}
 
 		mSurfaceHolder.unlockCanvasAndPost(canvas);// 绘制完成并解锁画布
 	}

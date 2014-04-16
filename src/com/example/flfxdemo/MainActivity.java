@@ -40,7 +40,6 @@ public class MainActivity extends ActionBarActivity {
 		this.screenHeight = dm.heightPixels;
 		app.setScreenWidth(screenWidth);
 		app.setScreenHeight(screenHeight);
-
 	}
 
 	@Override
@@ -48,11 +47,9 @@ public class MainActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 
 		pushData();
-
-		tableView = new TableSurfaceView(this, datas, 8);
-		setContentView(tableView);
-
 		init();
+		tableView = new TableSurfaceView(this, datas, 4);		
+		setContentView(tableView);
 
 	}
 
