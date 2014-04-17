@@ -39,6 +39,9 @@ public class TableSurfaceView extends SurfaceView implements Runnable,
 	public int tableRow = 1;// 默认一列
 	public int lastRowCell = 0;// 最后一行多出的格子
 
+	// 数据表格设置
+	public int tableX = 0, tableY = 0;// 从哪个位置开始画
+
 	List<Student> datas;// 学生数据
 	List<Student> selectedStudents;// 被选择的学生
 
@@ -74,6 +77,9 @@ public class TableSurfaceView extends SurfaceView implements Runnable,
 			this.tableRow = cellCount / tableCol + 1;
 			lastRowCell = cellCount % tableCol;
 		}
+
+		tableX = swEach;
+		tableY = shEach * tableRow;
 
 	}
 
@@ -138,6 +144,15 @@ public class TableSurfaceView extends SurfaceView implements Runnable,
 		// 绘制表格
 
 		mSurfaceHolder.unlockCanvasAndPost(canvas);// 绘制完成并解锁画布
+	}
+
+	/**
+	 * 绘制表格
+	 */
+	public void drawTable(Canvas canvas, Paint paint, int rows, int cols) {
+		this.canvas = canvas;
+		this.paint = paint;
+		
 	}
 
 }
