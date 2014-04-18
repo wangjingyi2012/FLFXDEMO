@@ -41,6 +41,7 @@ public class TableSurfaceView extends SurfaceView implements Runnable,
 	public int tableCol = 2;// 默认两列
 	public int tableRow = 1;// 默认一列
 	public int lastRowCell = 0;// 最后一行多出的格子
+	public Rect[] studentRect;
 
 	// 数据表格设置
 	public int tableX = 0, tableY = 0;// 从哪个位置开始画
@@ -86,9 +87,10 @@ public class TableSurfaceView extends SurfaceView implements Runnable,
 			this.tableRow = cellCount / tableCol + 1;
 			lastRowCell = cellCount % tableCol;
 		}
+		studentRect = new Rect[datas.size()];
 
 		tableX = swEach;
-		tableY = shEach * (tableRow) * 2 + shEach * 8;
+		tableY = shEach * (tableRow) * 2 + shEach * 6;
 
 		initRect();
 
@@ -132,12 +134,12 @@ public class TableSurfaceView extends SurfaceView implements Runnable,
 
 		paint.setColor(Color.BLACK);
 		canvas.drawColor(Color.WHITE);
-		paint.setTextSize(shEach);
+		paint.setTextSize(shEach - 2);
 		paint.setAntiAlias(true);
 		// canvas.drawBitmap(selectedIco, 10, 10, paint);
 
 		// 绘制学生
-		int k = 0, xPos = 0, yPos = shEach * 2;
+		int k = 0, xPos = 0, yPos = shEach * 4;
 		// 姓名的X,Y坐标
 		for (int i = 0; i < datas.size(); i++) {
 			int j = i % tableCol;
@@ -153,7 +155,19 @@ public class TableSurfaceView extends SurfaceView implements Runnable,
 		}
 
 		// 绘制表格
+		Paint cellColor = new Paint();
+		cellColor.setColor(Color.LTGRAY);
+		canvas.drawRect(cellRect[0], cellColor);
+		canvas.drawRect(cellRect[1], cellColor);
+		canvas.drawRect(cellRect[2], cellColor);
+		canvas.drawRect(cellRect[3], cellColor);
+		canvas.drawRect(cellRect[4], cellColor);
+		canvas.drawRect(cellRect[5], cellColor);
+		canvas.drawRect(cellRect[6], cellColor);
+		canvas.drawRect(cellRect[12], cellColor);
+		canvas.drawRect(cellRect[18], cellColor);
 		this.drawTable(canvas, paint, 4, 6);
+
 		Paint cellPaint2 = new Paint();
 		cellPaint2.setAntiAlias(true);
 		cellPaint2.setTextSize(shEach - 2);
